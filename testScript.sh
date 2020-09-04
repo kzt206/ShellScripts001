@@ -11,11 +11,16 @@ NAME_AFTER=txt
 for infile in *.win
 do
     echo $infile
-    outfile=`echo $infile | sed "s/.win/_$channel.txt/"`
+    outfile=`echo $infile | sed "s/.win/.txt/;s/^2020/$channel\_2020/"` 
     echo $outfile
     dewin -j $channel $infile > $outfile
+
     outfile2=`echo $outfile | sed "s/.txt/_2.txt/"`
-    cat $outfile | awk '{print $1,$2,$3, $3*1.023e-07/($number*10**(0/20))}' > $outfile2
+    cat $outfile  | awk -v num="$number" '{print $1,$2,$3, $3*1.023e-07/(num*10**(0/20))}' > test/$outfile2
+    #outfile3=`echo $outfile2 | sed "s/_2.txt/_2b.txt/"`
+    #cat test/$outfile2 | awk '{print $4}' > test2/$outfile2
+
+    
 done
 
 
